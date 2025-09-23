@@ -1,149 +1,72 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  VoiceAgentContext,
-  VoiceAgent,
-  ConnectionConfig,
-  AgentConfig,
-  InputOptions,
-  Channel,
-  useAgentMessage,
-  StringToAny,
-  useInputModeToggleAgent,
-} from "rapida-react";
 import "./index.css";
-import clsx from "clsx";
-import { AudioMessagingAction } from "./actions/audio-messsaging-action";
-import { SimpleMessagingAction } from "./actions/simple-messaging-action";
+import { WebAgent } from "./examples/web-app";
+import { MakePhoneCall } from "./examples/make-phone-call";
+import { useState } from "react";
+import { Globe2, Mic, Phone, PhoneCall, Sparkles, Volume2 } from "lucide-react";
+
 function App() {
-  return (
-    <div className="App">
-      <VoiceAIAgent />
-    </div>
-  );
-}
+  const [activeComponent, setActiveComponent] = useState("Web Voice");
 
-const root = ReactDOM.createRoot(document.getElementById("root")!);
-root.render(<App />);
+  const menuItems = [
+    {
+      id: "Web Voice",
+      label: "Adding voice agent in web",
+      icon: <Globe2 className="w-4 h-4" />,
+      component: "Web Voice",
+    },
+    {
+      id: "Phone Call",
+      icon: <PhoneCall className="w-4 h-4" />,
+      label: "Intiating a phone call",
+      component: "Phone Call",
+    },
+  ];
 
-export const VoiceAIAgent = () => {
   return (
-    <div className="bg-white dark:bg-slate-950 h-screen max-w-xl mx-auto rounded-3xl text-gray-600 dark:text-white px-4">
-      <VoiceAgentContext.Provider
-        value={
-          new VoiceAgent(
-            new ConnectionConfig(
-              ConnectionConfig.WithSDK({
-                // api key from rapida credentials
-                apiKey: "{API_KEY}",
-                userId: "random-user / identified-user",
-              })
-            ).withConnectionCallback({
-              onDisconnect: () => {
-                // do what you want when finished
-                console.log("disconnect");
-              },
-              onConnect() {
-                console.log("connected");
-              },
-              onError() {
-                console.log("error");
-              },
-            }),
-            new AgentConfig(
-              // replace this with actual agent id from rapida console
-              "{AGENT_ID}",
-              // you can select only Audio/ Text
-              new InputOptions([Channel.Audio, Channel.Text], Channel.Text)
-            )
-              .withAgentCallback({
-                onStart: () => {
-                  console.log("onStart: ()");
-                },
-                onComplete: () => {
-                  console.log("onComplete:");
-                },
-                onTranscript: () => {
-                  console.log("onTranscript");
-                },
-                onInterrupt: () => {
-                  console.log("onInterrupt");
-                },
-                onGeneration: () => {
-                  console.log("onGeneration");
-                },
-                onCompleteGeneration: () => {
-                  console.log("onCompleteGeneration");
-                },
-                onStartConversation: () => {
-                  console.log("onStartConversation");
-                },
-                onCompleteConversation: () => {
-                  console.log("onCompleteConversation");
-                },
-                onMessage: () => {
-                  console.log("onMessage: ()");
-                },
-              })
-              .addKeywords([
-                "dictionary - which you want the model to speak clearly",
-              ])
-              .addArgument("name", "<name>")
-              .addMetadata("utm_1", StringToAny("utm_X"))
-          )
-        }
-      >
-        {/* { Your code goes here} */}
-        <div className="h-full flex flex-row flex-nowrap items-stretch">
-          <div className="flex flex-col flex-grow min-w-0 flex-1">
-            <Messages />
-            <MessagingAction />
-          </div>
+    <div className="flex h-screen bg-white dark:bg-gray-900 font-sans">
+      {/* Sidebar */}
+      <div className="w-80 border-r border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950">
+        {/* Header */}
+        <div className="py-3 px-3 border-b border-gray-300 dark:border-gray-800">
+          <h1 className="text-base text-gray-800 dark:text-gray-200">
+            Examples
+          </h1>
         </div>
-      </VoiceAgentContext.Provider>
-    </div>
-  );
-};
 
-const Messages = () => {
-  const { messages } = useAgentMessage();
-  return (
-    <div className="flex flex-col justify-center flex-grow min-h-0 ">
-      <div className={clsx("max-h-full flex gap-2 overflow-y-auto flex-col")}>
-        <div className="flex flex-col items-center py-20 justify-center px-4">
-          <div className="flex w-full flex-col items-start gap-1 ">
-            <span className="text-3xl font-semibold">Hello,</span>
-            <span className="text-xl font-medium opacity-80">
-              How can I help you today?
-            </span>
-          </div>
-        </div>
-        <div className="divide-y divide-gray-400">
-          {messages.map((x) => {
-            return (
-              <div className="px-4 py-2">
-                {x.messages.map((x) => {
-                  return <p>{x}</p>;
-                })}
-              </div>
-            );
-          })}
-        </div>
-        {/* <ConversationMessages /> */}
+        {/* Navigation */}
+        <nav className="">
+          <ul className="space-y-1">
+            {menuItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  onClick={() => setActiveComponent(item.component)}
+                  className={`
+                    w-full px-4 py-2 transition-colors flex gap-3 items-center
+                    ${
+                      activeComponent === item.component
+                        ? "bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-100"
+                        : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900"
+                    }
+                  `}
+                >
+                  {item.icon}
+                  {item.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 bg-white dark:bg-gray-900">
+        {activeComponent === "Web Voice" && <WebAgent />}
+        {activeComponent === "Phone Call" && <MakePhoneCall />}
       </div>
     </div>
   );
-};
-
-export const MessagingAction = ({}) => {
-  const { channel } = useInputModeToggleAgent();
-  return (
-    <div className={clsx("py-3")}>
-      {channel === Channel.Audio ? (
-        <AudioMessagingAction />
-      ) : (
-        <SimpleMessagingAction />
-      )}
-    </div>
-  );
-};
+}
+const root = ReactDOM.createRoot(document.getElementById("root")!);
+root.render(<App />);

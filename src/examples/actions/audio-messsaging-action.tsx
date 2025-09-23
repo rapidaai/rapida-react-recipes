@@ -6,14 +6,15 @@ import { CircleFadingPlus, MessageSquareText, Mic, X } from "lucide-react";
 import {
   useConnectAgent,
   useSelectInputDeviceAgent,
-  useEnsureVoiceAgent,
   useInputModeToggleAgent,
-} from "rapida-react";
+  VoiceAgent,
+} from "@rapidaai/react";
 
 /**
  *
  */
 interface AudioMessagingActionProps extends HTMLAttributes<HTMLDivElement> {
+  voiceAgent: VoiceAgent;
   placeholder?: string;
 }
 
@@ -23,16 +24,17 @@ interface AudioMessagingActionProps extends HTMLAttributes<HTMLDivElement> {
  * @returns
  */
 export const AudioMessagingAction: FC<AudioMessagingActionProps> = ({
+  voiceAgent,
   className,
-  placeholder,
 }) => {
-  const ctx = useEnsureVoiceAgent();
   const { handleDisconnectAgent, handleConnectAgent, isConnected } =
-    useConnectAgent();
+    useConnectAgent(voiceAgent);
 
-  const { handleTextToggle, handleVoiceToggle } = useInputModeToggleAgent();
+  const { handleTextToggle, handleVoiceToggle } =
+    useInputModeToggleAgent(voiceAgent);
   const { devices, activeDeviceId, setActiveMediaDevice } =
     useSelectInputDeviceAgent({
+      voiceAgent,
       requestPermissions: true,
     });
   return (
@@ -41,31 +43,31 @@ export const AudioMessagingAction: FC<AudioMessagingActionProps> = ({
         {!isConnected ? (
           <button
             onClick={async () => {
-              await handleConnectAgent(ctx);
+              await handleConnectAgent();
             }}
             className={cn(
-              "flex items-center gap-1.5 border-[0.5px] border-blue-600/10 bg-gray-100 dark:bg-gray-950 rounded-full p-1 shadow-lg  px-4 py-2"
+              "flex items-center gap-1.5 border-[0.5px] border-blue-600/10 bg-gray-100 dark:bg-gray-950  p-1 shadow-lg  px-4 py-2"
             )}
           >
             <CircleFadingPlus className="w-4 h-4" />
             <span className="font-medium text-sm">Click to talk</span>
           </button>
         ) : (
-          <div className="flex items-center gap-1.5 border-[0.5px] border-blue-600/10 bg-gray-100 dark:bg-gray-950 rounded-full p-1 shadow-lg ">
+          <div className="flex items-center gap-1.5 border-[0.5px] border-blue-600/10 bg-gray-100 dark:bg-gray-950  p-1 shadow-lg ">
             <button
               onClick={async () => {
-                await handleTextToggle(ctx);
+                await handleTextToggle();
               }}
-              className="bg-blue-600/20 backdrop-blur-xl rounded-full shadow-lg p-2 border-[0.2px] border-blue-600/20 text-blue-600 hover:bg-blue-600 hover:text-white"
+              className="bg-blue-600/20 backdrop-blur-xl  shadow-lg p-2 border-[0.2px] border-blue-600/20 text-blue-600 hover:bg-blue-600 hover:text-white"
             >
               <MessageSquareText className="w-4 h-4" strokeWidth={2} />
             </button>
             <button
               onClick={async () => {
-                await handleDisconnectAgent(ctx);
-                await handleTextToggle(ctx);
+                await handleDisconnectAgent();
+                await handleTextToggle();
               }}
-              className="bg-red-500/20 backdrop-blur-xl rounded-full shadow-lg p-2 border-[0.2px] border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white cursor-pointer"
+              className="bg-red-500/20 backdrop-blur-xl  shadow-lg p-2 border-[0.2px] border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white cursor-pointer"
             >
               <X className="w-4 h-4" strokeWidth={2} />
             </button>

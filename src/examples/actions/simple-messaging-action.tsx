@@ -1,23 +1,24 @@
 import React from "react";
-import { useConnectAgent, useInputModeToggleAgent } from "rapida-react";
-import { useEnsureVoiceAgent } from "rapida-react";
+import { useConnectAgent, useInputModeToggleAgent } from "@rapidaai/react";
 import { Send } from "lucide-react";
 import { FC, HTMLAttributes, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AnimatePresence, motion } from "framer-motion";
 import clsx from "clsx";
+import { VoiceAgent } from "@rapidaai/react";
 
 interface SimpleMessagingAcitonProps extends HTMLAttributes<HTMLDivElement> {
+  voiceAgent: VoiceAgent;
   placeholder?: string;
 }
 export const SimpleMessagingAction: FC<SimpleMessagingAcitonProps> = ({
   className,
+  voiceAgent,
   placeholder,
 }) => {
-  const ctx = useEnsureVoiceAgent();
-  const { handleVoiceToggle } = useInputModeToggleAgent();
+  const { handleVoiceToggle } = useInputModeToggleAgent(voiceAgent);
   const { handleConnectAgent, handleDisconnectAgent, isConnected } =
-    useConnectAgent();
+    useConnectAgent(voiceAgent);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,12 +29,12 @@ export const SimpleMessagingAction: FC<SimpleMessagingAcitonProps> = ({
     }
   }, [isConnected]);
 
-  const handleDisconnectClick = (ctx: any) => {
+  const handleDisconnectClick = () => {
     if (isConnected) {
       setIsLoading(true);
-      handleDisconnectAgent(ctx);
+      handleDisconnectAgent();
     } else {
-      handleConnectAgent(ctx);
+      handleConnectAgent();
     }
   };
 
@@ -46,8 +47,8 @@ export const SimpleMessagingAction: FC<SimpleMessagingAcitonProps> = ({
     mode: "onChange",
   });
 
-  const onSubmitForm = (data) => {
-    ctx?.onSendText(data.message);
+  const onSubmitForm = (data: any) => {
+    voiceAgent?.onSendText(data.message);
     reset();
   };
 
@@ -56,17 +57,17 @@ export const SimpleMessagingAction: FC<SimpleMessagingAcitonProps> = ({
       <AnimatePresence>
         <motion.div
           className={clsx(
-            "flex justify-center items-center py-2",
+            "flex justify-center items-center",
             !isConnected && "hidden"
           )}
         >
           <button
-            onClick={() => {
-              handleDisconnectClick(ctx);
+            onClick={async () => {
+              await handleDisconnectClick();
             }}
             disabled={isLoading}
             className={clsx(
-              "px-3 py-[4px] rounded-full flex items-center space-x-1.5 bg-red-600 text-white border border-red-700/50"
+              "px-3 py-[4px] flex items-center space-x-1.5 bg-red-600 text-white border border-red-700/50"
             )}
           >
             {isLoading ? (
@@ -91,14 +92,14 @@ export const SimpleMessagingAction: FC<SimpleMessagingAcitonProps> = ({
       </AnimatePresence>
       <form
         className={clsx(
-          "relative flex items-center px-2 py-2 border gap-4 focus-within:border-blue-600  dark:border-gray-700 rounded-full",
+          "relative flex items-center p-4 border-t gap-4 focus-within:border-blue-600  dark:border-gray-700 dark:bg-gray-950 bg-gray-100 border-gray-400",
           className
         )}
         onSubmit={handleSubmit(onSubmitForm)}
       >
         <textarea
-          className="resize-none p-2 h-[40px] w-full text-base disabled:opacity-50 disabled:pointer-events-none dark:placeholder-gray-500 dark:text-gray-300 border-none bg-transparent focus:border-none focus:outline-none"
-          placeholder={placeholder}
+          className="resize-none h-[40px] w-full text-base disabled:opacity-50 disabled:pointer-events-none dark:placeholder-gray-500 dark:text-gray-300 border-none bg-transparent focus:border-none focus:outline-none"
+          placeholder={"Type anything..."}
           {...register("message", {
             required: "Please write your message.",
           })}
@@ -114,17 +115,17 @@ export const SimpleMessagingAction: FC<SimpleMessagingAcitonProps> = ({
           {isValid ? (
             <button
               type="submit"
-              className="inline-flex shrink-0 justify-center items-center h-10 w-10 rounded-full text-white bg-blue-600 hover:bg-blue-600 focus:z-10 focus:outline-none focus:bg-blue-600"
+              className="inline-flex shrink-0 justify-center items-center h-10 w-10 text-white bg-blue-600 hover:bg-blue-600 focus:z-10 focus:outline-none focus:bg-blue-600"
             >
               <Send className="shrink-0 size-5" strokeWidth="2" />
             </button>
           ) : (
             <button
               onClick={async () => {
-                !isConnected && (await handleConnectAgent(ctx));
-                await handleVoiceToggle(ctx);
+                !isConnected && (await handleConnectAgent());
+                await handleVoiceToggle();
               }}
-              className="voice-action relative flex h-9 items-center justify-center rounded-full bg-blue-600 text-white transition-colors focus-visible:outline-none focus-visible:outline-black disabled:text-gray-50 disabled:opacity-30 can-hover:hover:opacity-70 min-w-8 p-2"
+              className="voice-action relative flex h-9 items-center justify-center bg-blue-600 text-white transition-colors focus-visible:outline-none focus-visible:outline-black disabled:text-gray-50 disabled:opacity-30 can-hover:hover:opacity-70 min-w-8 p-2"
             >
               <div className="flex items-center justify-center">
                 <svg
