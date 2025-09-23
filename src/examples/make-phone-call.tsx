@@ -182,7 +182,7 @@ export const MakePhoneCall = () => {
 
   return (
     <div className="h-[100dvh] flex justify-center ">
-      <div className="bg-lightBackground dark:bg-gray-950/50 !w-[700px] mx-auto my-auto shadow dark:text-gray-300 text-gray-700 bg-gray-100">
+      <div className="border-gray-200 border dark:border-gray-800 !w-[700px] mx-auto my-auto shadow dark:text-gray-300 text-gray-700">
         <div className="space-y-6 m-10">
           <div className="space-y-2">
             <h1 className="text-3xl">Hello,</h1>

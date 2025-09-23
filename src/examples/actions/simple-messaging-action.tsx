@@ -92,7 +92,7 @@ export const SimpleMessagingAction: FC<SimpleMessagingAcitonProps> = ({
       </AnimatePresence>
       <form
         className={clsx(
-          "relative flex items-center p-4 border-t gap-4 focus-within:border-blue-600  dark:border-gray-700 dark:bg-gray-950 bg-gray-100 border-gray-400",
+          "relative flex items-center p-4 border-t gap-4 focus-within:border-blue-600  dark:border-gray-700 border-gray-400",
           className
         )}
         onSubmit={handleSubmit(onSubmitForm)}

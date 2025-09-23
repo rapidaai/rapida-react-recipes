@@ -74,7 +74,7 @@ export const VoiceAIAgent: FC<{ rapidaAgent: VoiceAgent }> = ({
   rapidaAgent,
 }) => {
   return (
-    <div className="bg-gray-100 dark:bg-gray-950/50 h-screen max-w-xl mx-auto text-gray-600 dark:text-white border-gray-400">
+    <div className="h-screen max-w-xl mx-auto text-gray-600 dark:text-white border-gray-200 border-x dark:border-gray-800">
       <div className="h-full flex flex-row flex-nowrap items-stretch">
         <div className="flex flex-col flex-grow min-w-0 flex-1">
           <Messages rapidaAgent={rapidaAgent} />

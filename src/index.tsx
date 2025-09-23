@@ -25,12 +25,12 @@ function App() {
   ];
 
   return (
-    <div className="flex h-screen bg-white dark:bg-gray-900 font-sans">
+    <div className="flex h-screen bg-white dark:bg-gray-950 font-sans">
       {/* Sidebar */}
-      <div className="w-80 border-r border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950">
+      <div className="w-80 border-r border-gray-200 dark:border-gray-800">
         {/* Header */}
         <div className="py-3 px-3 border-b border-gray-300 dark:border-gray-800">
-          <h1 className="text-base text-gray-800 dark:text-gray-200">
+          <h1 className="text-base text-gray-500 dark:text-gray-200">
             Examples
           </h1>
         </div>
@@ -46,7 +46,7 @@ function App() {
                     w-full px-4 py-2 transition-colors flex gap-3 items-center
                     ${
                       activeComponent === item.component
-                        ? "bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-100"
+                        ? "bg-gray-200 dark:bg-gray-900 text-gray-500 dark:text-gray-100"
                         : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900"
                     }
                   `}
@@ -61,7 +61,7 @@ function App() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 bg-white dark:bg-gray-900">
+      <div className="flex-1">
         {activeComponent === "Web Voice" && <WebAgent />}
         {activeComponent === "Phone Call" && <MakePhoneCall />}
       </div>
