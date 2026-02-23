@@ -11,7 +11,8 @@
         "framer-motion": "^12.10.1",
         "lucide-react": "^0.508.0",
         "react": "^19.1.0",
-        "react-dom": "^19.1.0"
+        "react-dom": "^19.1.0",
+        "react-hook-form": "^7.56.3"
     },
     "devDependencies": {
         "@babel/core": "^7.27.1",
