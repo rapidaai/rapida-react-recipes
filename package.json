@@ -5,7 +5,7 @@
     "author": "Prashant Srivastav <ps@rapida.ai>",
     "license": "MIT",
     "dependencies": {
-        "@rapidaai/react": "^1.1.34",
+        "@rapidaai/react": "^1.1.57",
         "@tailwindcss/postcss": "^4.1.5",
         "clsx": "^2.1.1",
         "framer-motion": "^12.10.1",

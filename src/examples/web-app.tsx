@@ -11,8 +11,7 @@ import {
 } from "@rapidaai/react";
 import clsx from "clsx";
 import { FC } from "react";
-import { AudioMessagingAction } from "./actions/audio-messsaging-action";
-import { SimpleMessagingAction } from "./actions/simple-messaging-action";
+import { MessagingAction } from "./messaging/messaging-action";
 
 export const WebAgent = () => {
   return (
@@ -21,9 +20,9 @@ export const WebAgent = () => {
         new VoiceAgent(
           ConnectionConfig.DefaultConnectionConfig(
             ConnectionConfig.WithSDK({
-              ApiKey: "{API_KEY}",
+              ApiKey: "APIKEY_xxx", // replace this with actual api key from rapida console
               UserId: "random-user / identified-user",
-            })
+            }),
           ).withConnectionCallback({
             onDisconnect: () => {
               // do what you want when finished
@@ -40,7 +39,7 @@ export const WebAgent = () => {
             // replace this with actual agent id from rapida console
             "{AGENT_ID}",
             // you can select only Audio/ Text
-            new InputOptions([Channel.Audio, Channel.Text], Channel.Text)
+            new InputOptions([Channel.Audio, Channel.Text], Channel.Text),
           )
             .addKeywords([
               "dictionary - which you want the model to speak clearly",
@@ -60,10 +59,7 @@ export const WebAgent = () => {
             onInterrupt: (args) => {
               console.log("onInterrupt");
             },
-            onMessage: (args) => {
-              console.log("onGeneration");
-            },
-          }
+          },
         )
       }
     />
@@ -78,7 +74,11 @@ export const VoiceAIAgent: FC<{ rapidaAgent: VoiceAgent }> = ({
       <div className="h-full flex flex-row flex-nowrap items-stretch">
         <div className="flex flex-col flex-grow min-w-0 flex-1">
           <Messages rapidaAgent={rapidaAgent} />
-          <MessagingAction rapidaAgent={rapidaAgent} />
+          <MessagingAction
+            assistant={null}
+            placeholder="How can I help you?"
+            voiceAgent={rapidaAgent}
+          />
         </div>
       </div>
     </div>
@@ -110,21 +110,6 @@ const Messages: FC<{ rapidaAgent: VoiceAgent }> = ({ rapidaAgent }) => {
           })}
         </div>
       </div>
-    </div>
-  );
-};
-
-export const MessagingAction: FC<{ rapidaAgent: VoiceAgent }> = ({
-  rapidaAgent,
-}) => {
-  const { channel } = useInputModeToggleAgent(rapidaAgent);
-  return (
-    <div>
-      {channel === Channel.Audio ? (
-        <AudioMessagingAction voiceAgent={rapidaAgent} />
-      ) : (
-        <SimpleMessagingAction voiceAgent={rapidaAgent} />
-      )}
     </div>
   );
 };
