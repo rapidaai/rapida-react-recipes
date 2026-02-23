@@ -92,7 +92,7 @@ export const AudioMessagingAction: FC<AudioMessagingActionProps> = ({
   return (
     <div className={"relative flex items-center p-2 py-3 gap-4"}>
       <div className="flex items-center justify-center w-full">
-        <div className="flex flex-row border divide-x">
+        <div className="flex flex-row border divide-x border-slate-200 dark:border-slate-700 dark:divede-slate-700 divide-slate-200">
           <button
             className="group h-9 px-3 flex flex-row items-center justify-center transition-all duration-300 hover:opacity-80 overflow-hidden w-fit bg-red-500/10 hover:bg-red-500/15 active:bg-red-500/20 dark:bg-red-500/10 dark:hover:bg-red-500/15 dark:active:bg-red-500/20 text-red-500 hover:text-red-500 rounded-none"
             aria-label="Turn on microphone"
@@ -130,7 +130,7 @@ export const AudioMessagingAction: FC<AudioMessagingActionProps> = ({
                 "rounded-full transition-all duration-150",
                 isMuted
                   ? "bg-red-400/50 dark:bg-red-500/50"
-                  : "bg-primary dark:bg-primary opacity-80",
+                  : "bg-blue-600 dark:bg-blue-600 opacity-80",
               )}
               frequencies={visualizerFrequencies}
             />
@@ -138,9 +138,9 @@ export const AudioMessagingAction: FC<AudioMessagingActionProps> = ({
             {/* Device Selector Dropdown */}
             <FlyoutLink
               FlyoutContent={
-                <div className="flex flex-col rounded-[2px] w-[300px] overflow-hidden bg-white dark:bg-gray-950 border-subtle border shadow-lg dark:border-gray-700">
-                  <div className="px-3 py-2 border-b border-gray-200 dark:border-gray-700">
-                    <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                <div className="flex flex-col rounded-[2px] w-[300px] overflow-hidden bg-white dark:bg-slate-950 border-subtle border shadow-lg dark:border-slate-700">
+                  <div className="px-3 py-2 border-b border-slate-200 dark:border-slate-700">
+                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
                       Select Microphone
                     </span>
                   </div>
@@ -154,8 +154,8 @@ export const AudioMessagingAction: FC<AudioMessagingActionProps> = ({
                             "w-full text-left rounded-[2px] px-3 py-2.5 text-sm transition-all duration-150",
                             "flex items-center justify-between gap-2",
                             isActive
-                              ? "bg-primary text-white"
-                              : "hover:bg-primary/10 text-gray-700 dark:text-gray-200",
+                              ? "bg-blue-600 text-white"
+                              : "hover:bg-blue-600/10 text-slate-700 dark:text-slate-200",
                           )}
                           onClick={() => handleDeviceChange(device.deviceId)}
                         >
@@ -179,14 +179,14 @@ export const AudioMessagingAction: FC<AudioMessagingActionProps> = ({
               className="flex items-center cursor-pointer"
             >
               {(isOpen: boolean) => (
-                <div className="flex items-center gap-1 px-2 py-2 rounded-[2px] hover:bg-primary/10 transition-colors">
-                  <span className="text-xs font-medium text-gray-600 dark:text-gray-300 max-w-[120px] truncate">
+                <div className="flex items-center gap-1 px-2 py-2 rounded-[2px] hover:bg-blue-600/10 transition-colors">
+                  <span className="text-xs font-medium text-slate-600 dark:text-slate-300 max-w-[120px] truncate">
                     {activeDeviceLabel}
                   </span>
                   <ChevronDown
                     strokeWidth={1.5}
                     className={clsx(
-                      "w-4 h-4 transition-transform duration-300 text-gray-500 dark:text-gray-400",
+                      "w-4 h-4 transition-transform duration-300 text-slate-500 dark:text-slate-400",
                       isOpen ? "rotate-180" : "",
                     )}
                   />
@@ -269,7 +269,7 @@ const FlyoutLink = ({ children, FlyoutContent, className }: any) => {
             className="absolute left-0 bottom-12 z-50"
           >
             <div className="absolute -top-6 left-0 right-0 h-6 bg-transparent" />
-            <div className="absolute left-4 -bottom-2 h-4 w-4 rotate-45 bg-white dark:bg-gray-950 border-b border-r dark:border-gray-700" />
+            <div className="absolute left-4 -bottom-2 h-4 w-4 rotate-45 bg-white dark:bg-slate-950 border-b border-r dark:border-slate-700" />
             {FlyoutContent}
           </motion.div>
         )}

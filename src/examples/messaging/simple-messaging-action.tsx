@@ -45,12 +45,12 @@ export const SimpleMessagingAction: FC<SimpleMessagingAcitonProps> = ({
     <div>
       <form
         className={clsx(
-          "relative flex items-center gap-4 focus-within:border-primary  dark:border-gray-700 bg-light-background focus-within:bg-white",
+          "relative flex items-center gap-4 focus-within:border-blue-600  dark:border-slate-700 bg-light-background focus-within:bg-white dark:focus-within:bg-slate-950 border-t border-slate-300 px-4 py-2",
         )}
         onSubmit={handleSubmit(onSubmitForm)}
       >
         <textarea
-          className="resize-none h-[40px] w-full text-base disabled:opacity-50 disabled:pointer-events-none dark:placeholder-gray-500 dark:text-gray-300 border-none bg-transparent focus:border-none focus:outline-none"
+          className="resize-none h-[40px] w-full text-base disabled:opacity-50 disabled:pointer-events-none dark:placeholder-slate-500 dark:text-slate-300 border-none bg-transparent focus:border-none focus:outline-none"
           placeholder={placeholder}
           {...register("message", {
             required: "Please write your message.",

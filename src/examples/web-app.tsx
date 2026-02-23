@@ -20,7 +20,7 @@ export const WebAgent = () => {
         new VoiceAgent(
           ConnectionConfig.DefaultConnectionConfig(
             ConnectionConfig.WithSDK({
-              ApiKey: "APIKEY_xxx", // replace this with actual api key from rapida console
+              ApiKey: "apiKey-",
               UserId: "random-user / identified-user",
             }),
           ).withConnectionCallback({
@@ -70,7 +70,7 @@ export const VoiceAIAgent: FC<{ rapidaAgent: VoiceAgent }> = ({
   rapidaAgent,
 }) => {
   return (
-    <div className="h-screen mx-auto text-gray-600 dark:text-white border-gray-200 border-x dark:border-gray-800">
+    <div className="h-screen mx-auto text-slate-600 dark:text-white border-slate-200 border-x dark:border-slate-800">
       <div className="h-full flex flex-row flex-nowrap items-stretch">
         <div className="flex flex-col flex-grow min-w-0 flex-1">
           <Messages rapidaAgent={rapidaAgent} />
@@ -98,10 +98,10 @@ const Messages: FC<{ rapidaAgent: VoiceAgent }> = ({ rapidaAgent }) => {
             </span>
           </div>
         </div>
-        <div className="divide-y divide-gray-400">
+        <div className="divide-y divide-slate-400">
           {messages.map((x, idx) => {
             return (
-              <div className="px-4 py-2" key={idx}>
+              <div className="py-2" key={idx}>
                 {x.messages.map((x) => {
                   return <p>{x}</p>;
                 })}
